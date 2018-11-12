@@ -19,7 +19,7 @@ class Ad(Base):
     under_construction = Column(Boolean, nullable=False)
     description = Column(Text, nullable=False)
     price = Column(Integer, nullable=False)
-    oblast_destrict = Column(String(50), nullable=False)
+    oblast_district = Column(String(50), nullable=False)
     living_area = Column(Float)
     has_balcony = Column(Boolean, nullable=False)
     address = Column(String(100), nullable=False)

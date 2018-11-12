@@ -1,6 +1,7 @@
 import os.path
 import json
 import argparse
+import sys
 
 
 def load_json_data(filepath):
@@ -29,6 +30,14 @@ def main():
     command_line_arguments = parse_command_line_arguments()
 
     filepath = command_line_arguments.filepath
+
+    try:
+        ads = load_json_data(filepath)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        sys.exit('JSON file has invalid format')
+
+    if ads is None:
+        sys.exit('JSON file not found')
 
 
 if __name__ == '__main__':

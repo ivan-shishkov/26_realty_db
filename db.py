@@ -8,13 +8,12 @@ engine = create_engine('sqlite:///real_estate.sqlite')
 db_session = scoped_session(sessionmaker(bind=engine))
 
 Base = declarative_base()
-Base.query = db_session.query_property()
 
 
 class Ad(Base):
     __tablename__ = 'ads'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     settlement = Column(String(50), nullable=False)
     under_construction = Column(Boolean, nullable=False)
     description = Column(Text, nullable=False)
@@ -26,7 +25,7 @@ class Ad(Base):
     construction_year = Column(Integer)
     rooms_number = Column(Integer, nullable=False)
     premise_area = Column(Float, nullable=False)
-    active = Column(Boolean, nullable=False)
+    active = Column(Boolean, nullable=False, index=True, default=True)
 
 
 if __name__ == '__main__':

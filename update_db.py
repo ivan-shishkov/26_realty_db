@@ -34,7 +34,7 @@ def get_flat_list(sequence):
 
 def get_old_ads_ids(new_ads_ids):
     active_ads_ids = get_flat_list(
-        list(db_session.query(Ad.id).filter(Ad.active)),
+        db_session.query(Ad.id).filter(Ad.active).all(),
     )
     return list(set(active_ads_ids) - set(new_ads_ids))
 

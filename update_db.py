@@ -39,6 +39,12 @@ def get_old_ads_ids(new_ads_ids):
     return list(set(active_ads_ids) - set(new_ads_ids))
 
 
+def set_ads_inactive(ads_ids):
+    for ad_id in ads_ids:
+        ad = db_session.query(Ad).filter(Ad.id == ad_id).first()
+        ad.active = False
+
+
 def main():
     command_line_arguments = parse_command_line_arguments()
 

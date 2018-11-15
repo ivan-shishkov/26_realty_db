@@ -3,6 +3,8 @@ import json
 import argparse
 import sys
 
+from db import db_session, Ad
+
 
 def load_json_data(filepath):
     if not os.path.exists(filepath):
@@ -24,6 +26,17 @@ def parse_command_line_arguments():
     command_line_arguments = parser.parse_args()
 
     return command_line_arguments
+
+
+def get_flat_list(sequence):
+    return [element for subsequence in sequence for element in subsequence]
+
+
+def get_old_ads_ids(new_ads_ids):
+    active_ads_ids = get_flat_list(
+        list(db_session.query(Ad.id).filter(Ad.active)),
+    )
+    return list(set(active_ads_ids) - set(new_ads_ids))
 
 
 def main():

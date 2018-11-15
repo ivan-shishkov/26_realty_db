@@ -45,6 +45,25 @@ def set_ads_inactive(ads_ids):
         ad.active = False
 
 
+def is_existing_ad(ad_id):
+    return db_session.query(Ad).filter(Ad.id == ad_id).count() > 0
+
+
+def update_database(new_ads):
+    old_ads_ids = get_old_ads_ids(
+        new_ads_ids=[ad['id'] for ad in new_ads],
+    )
+    set_ads_inactive(ads_ids=old_ads_ids)
+
+    for ad in new_ads:
+        if is_existing_ad(ad['id']):
+            db_session.query(Ad).filter(Ad.id == ad['id']).update(ad)
+        else:
+            db_session.add(Ad(**ad))
+
+    db_session.commit()
+
+
 def main():
     command_line_arguments = parse_command_line_arguments()
 
@@ -57,6 +76,8 @@ def main():
 
     if ads is None:
         sys.exit('JSON file not found')
+
+    update_database(new_ads=ads)
 
 
 if __name__ == '__main__':

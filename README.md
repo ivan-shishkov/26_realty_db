@@ -1,6 +1,8 @@
 # Real Estate Site
 
-{TODO. There will be project description}
+This is an example of a real estate agency site that allows you to display ads for real estate. 
+Ads are stored in a SQLite database and can be loaded into it from JSON files. 
+An example of such a JSON file is available [here](https://devman.org/fshare/1503424990/3/).
 
 # Project Goals
 

@@ -44,24 +44,31 @@ def set_ads_inactive(ads_ids):
         ad = db_session.query(Ad).filter(Ad.id == ad_id).first()
         ad.active = False
 
+    db_session.commit()
+
 
 def is_existing_ad(ad_id):
     return db_session.query(Ad).filter(Ad.id == ad_id).count() > 0
 
 
-def update_database(new_ads):
-    old_ads_ids = get_old_ads_ids(
-        new_ads_ids=[ad['id'] for ad in new_ads],
-    )
-    set_ads_inactive(ads_ids=old_ads_ids)
-
-    for ad in new_ads:
+def save_ads_to_database(ads):
+    for ad in ads:
         if is_existing_ad(ad['id']):
             db_session.query(Ad).filter(Ad.id == ad['id']).update(ad)
         else:
             db_session.add(Ad(**ad))
 
     db_session.commit()
+
+
+def update_database(new_ads):
+    save_ads_to_database(new_ads)
+
+    set_ads_inactive(
+        ads_ids=get_old_ads_ids(
+            new_ads_ids=[ad['id'] for ad in new_ads],
+        ),
+    )
 
 
 def main():

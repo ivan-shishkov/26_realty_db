@@ -33,10 +33,12 @@ def get_flat_list(sequence):
 
 
 def get_old_ads_ids(new_ads_ids):
-    active_ads_ids = get_flat_list(
-        db_session.query(Ad.id).filter(Ad.active).all(),
+    return get_flat_list(
+        db_session.query(Ad.id).filter(
+            Ad.active,
+            ~Ad.id.in_(new_ads_ids),
+        ).all(),
     )
-    return list(set(active_ads_ids) - set(new_ads_ids))
 
 
 def set_ads_inactive(ads_ids):

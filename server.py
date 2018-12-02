@@ -43,12 +43,16 @@ def get_filtered_ads_query(
 @app.route('/')
 def ads_list():
     page_number = request.args.get(get_page_parameter(), type=int, default=1)
+    oblast_district = request.args.get('oblast_district')
+    min_price = request.args.get('min_price', type=int)
+    max_price = request.args.get('max_price', type=int)
+    new_building = request.args.get('new_building', type=bool)
 
     filtered_ads_query = get_filtered_ads_query(
-        oblast_district=request.args.get('oblast_district'),
-        min_price=request.args.get('min_price', type=int),
-        max_price=request.args.get('max_price', type=int),
-        new_building=request.args.get('new_building', type=bool),
+        oblast_district=oblast_district,
+        min_price=min_price,
+        max_price=max_price,
+        new_building=new_building,
     )
     ads_page = paginate(
         query=filtered_ads_query,
@@ -65,6 +69,10 @@ def ads_list():
         'ads_list.html',
         ads=ads_page.items,
         pagination=pagination,
+        oblast_district=oblast_district,
+        min_price=min_price,
+        max_price=max_price,
+        new_building=new_building,
     )
 
 
